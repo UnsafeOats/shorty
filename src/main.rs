@@ -1,3 +1,7 @@
+use crate::configs;
+use crate::gui;
+
 fn main() {
-    println!("Hello, world!");
+    let configs = configs::Configs::new();
+    let app = gui::GuiApp::new(configs);
 }
