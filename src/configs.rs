@@ -17,24 +17,16 @@ pub struct Configs {
 
 #[derive(Deserialize, PartialEq, Debug)]
 pub struct Settings {
-    pub keypress: String,
+    pub width: i32,
+    pub height: i32,
+    pub default: Option<String>,
 }
 
 impl Configs {
     pub fn new() -> Configs {
-        let mut home = home_dir().unwrap();
-        home.push(".config");
-        let config_file = var("SHORTY_CONFIG_FILE");
-        let config_path = match config_file {
-            Ok(path) => PathBuf::from(&path),
-            Err(_) => {
-                let mut default_config_path = home.clone();
-                default_config_path.push(".shorty.toml");
-                default_config_path
-            }
-        };
+        let config_path = Self::get_config_path();
         if !config_path.exists() {
-            fs::create_dir_all(&config_path.parent().unwrap_or(&home))
+            fs::create_dir_all(&config_path.parent().unwrap_or(&home_dir().expect("[error] Cannot find home directory.")))
                 .expect("[error] Could not create config directory.");
             let mut new_config_file =
                 fs::File::create(&config_path).expect("[error] Could not create config file.");
@@ -49,13 +41,45 @@ impl Configs {
         configs
     }
 
+    fn get_config_path() -> PathBuf {
+        let mut home = home_dir().unwrap();
+        home.push(".config");
+        let config_file = var("SHRTCUT_CONFIG_FILE");
+        let config_path = match config_file {
+            Ok(path) => PathBuf::from(&path),
+            Err(_) => {
+                let mut default_config_path = home.clone();
+                default_config_path.push(".shrtcut.toml");
+                default_config_path
+            }
+        };
+        config_path
+    }
+
     pub fn copy_to_clipboard(&self, choice: String) -> Result<()> {
         let shorty = self.shortcuts.get(&choice);
-        println!("{:?}", &shorty);
         match shorty {
             Some(s) => GlobalClip::set(s)?,
             None => bail!("[error] Could not copy to clipboard."),
         };
         Ok(())
     }
+
+    pub fn create_shortcut_from_clipboard(&self, name: String) -> Result<()> {
+        let clipboard = GlobalClip::get()?;
+        let command = format!("{}=\"{}\"", name, clipboard);
+        let mut config_file = fs::OpenOptions::new()
+            .write(true)
+            .append(true)
+            .open(Self::get_config_path())?;
+        writeln!(config_file, "{}", command)?;
+        Ok(())
+    }
+
+    pub fn print_configs(&self) {
+        let config_path = Self::get_config_path();
+        println!("{}", config_path.to_str().unwrap_or(""));
+    }
 }
+
+

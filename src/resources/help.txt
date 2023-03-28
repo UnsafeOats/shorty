@@ -1,0 +1,13 @@
+A simple clipboard shortcut manager.
+
+Usage: shrtcut [options] [shortcut]
+    [options]: --help, -h, --version, -v, --grab, -g, --select, -s, --add, -a, --config, -c
+    [shortcut]: shortcut name
+
+Examples:
+    shrtcut --help
+    shrtcut --version
+    shrtcut --select
+    shrtcut --config
+    shrtcut --grab google
+    shrtcut --add current

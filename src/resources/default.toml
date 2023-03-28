@@ -1,4 +1,8 @@
 [settings]
-keypress="alt+shift+v"
+height=40
+width=300
+default="oatbread"
 
 [shortcuts]
+google="google.com"
+oatbread="oatbread.org"
