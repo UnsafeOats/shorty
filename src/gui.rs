@@ -30,10 +30,10 @@ impl GuiApp {
                 println!("worked {:?}", self.choices[menu.value() as usize]);
                 menu.hide();
                 wind.hide();
-                app::quit();
-                return Ok(());
+                break;
             }
         }
+        app::quit();
         Ok(())
     }
 }

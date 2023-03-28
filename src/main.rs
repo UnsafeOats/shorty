@@ -24,6 +24,7 @@ fn main() {
         let (ctrl, alt, p) = { *state.lock().unwrap() };
         if ctrl && alt && p {
             spawn_app().unwrap();
+            std::thread::sleep(std::time::Duration::from_millis(1000));
         }
         std::thread::sleep(std::time::Duration::from_millis(100));
     }
