@@ -1,9 +1,8 @@
 use crate::configs;
+use anyhow::Result;
 use fltk::{prelude::*, *};
 
-struct GuiApp {
-    window: window::Window,
-    menu: menu::Choice,
+pub struct GuiApp {
     configs: configs::Configs,
     choices: Vec<String>,
 }
@@ -11,29 +10,30 @@ struct GuiApp {
 impl GuiApp {
     pub fn new(configs: configs::Configs) -> Self {
         let choices: Vec<String> = configs.shortcuts.keys().map(|s| s.to_string()).collect();
-        let mut wind = window::Window::new(100, 100, 400, 300, "shorty");
-        let mut menu = menu::Choice::new(100, 100, 150, 30, None);
-        for choice in choices.clone().iter() {
-            menu.add_choice(choice);
-        }
-        wind.end();
-        wind.show();
         Self {
-            window: wind,
-            menu,
             configs,
             choices,
         }
     }
 
-    pub fn run(&mut self) {
+    pub fn spawn(&self) -> Result<()> {
+        let mut wind = window::Window::new(450, 450, 400, 60, "shorty");
+        let mut menu = menu::Choice::new(20, 20, 350, 30, None);
+        for choice in self.choices.clone().iter() {
+            menu.add_choice(choice);
+        }
+        wind.end();
+        wind.show();
         while app::wait() {
-            if self.menu.value() > 0 {
-                println!(
-                    "Selected Option: {}",
-                    &self.choices[self.menu.value() as usize - 1]
-                );
+            if menu.value() >= 0 {
+                self.configs.copy_to_clipboard(self.choices[menu.value() as usize].clone())?;
+                println!("worked {:?}", self.choices[menu.value() as usize]);
+                menu.hide();
+                wind.hide();
+                app::quit();
+                return Ok(());
             }
         }
+        Ok(())
     }
 }
