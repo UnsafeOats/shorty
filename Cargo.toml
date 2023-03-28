@@ -1,12 +1,12 @@
 [package]
 name = "shrtcut"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Shane Stephenson <stephenson.shane.a@gmail.com>"]
 readme = "README.md"
 description = "A simple clipboard shortcut manager."
-homepage = "https://github.com/UnsafeOats/shorty"
-repository = "https://github.com/UnsafeOats/shorty"
+homepage = "https://github.com/UnsafeOats/shrtcut"
+repository = "https://github.com/UnsafeOats/shrtcut"
 license = "MIT"
 keywords = ["clipboard", "copy", "paste", "text", "shortcut"]
 
