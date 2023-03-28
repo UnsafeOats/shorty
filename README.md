@@ -25,9 +25,9 @@ google="google.com"
 
 to pull up a gui that lets you select a shortcut from a dropdown list, simply run:
 ```console
-foo@bar: ~$ shortcut  # No arguments will pull up GUI
+foo@bar: ~$ shortcut  # No args will pull up GUI
 
-foo@bar: ~$ shortcut --select  # The --select/-s argument will also pull up GUI
+foo@bar: ~$ shortcut --select  # Will also pull up GUI
 ```
 
 the point of this program was to make it easy to select from a list of saved urls.   the plan is to include a command to start a listener loop and check for a user-specified key combination to bring up the selection gui.  for now, you should use a hotkey program (via shortcuts on windows, spark/fastscripts/etc on mac, bind on linux) and set it to run `shrtcut --select`
