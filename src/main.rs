@@ -37,7 +37,7 @@ fn main() {
                 },
                 None => println!("No shortcut provided. Try --help for more information."),
             },
-            "--configure" | "-c" => {
+            "--configs" | "-c" => {
                 configs.print_configs();
             },
             "--select" | "-s" => spawn_app(configs),

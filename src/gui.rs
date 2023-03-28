@@ -10,7 +10,11 @@ pub struct GuiApp {
 impl GuiApp {
     pub fn new(configs: configs::Configs) -> Self {
         let first_choice = match configs.settings.default.clone() {
-            Some(s) => s,
+            Some(s) => if configs.shortcuts.contains_key(&s) {
+                s
+            } else {
+                "".to_string()
+            },
             None => "".to_string(),
         };
         let mut choices = vec![first_choice];
