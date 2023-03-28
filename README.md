@@ -38,7 +38,13 @@ foo@bar: ~$ shrtcut --help
 A simple clipboard shortcut manager.
 
 Usage: shrtcut [options] [shortcut]
-    [options]: --help, -h, --version, -v, --grab, -g, --select, -s, --add, -a, --configs, -c
+    [options]:
+        --help, -h
+        --version, -v
+        --grab, -g
+        --select, -s
+        --add, -a
+        --configs, -c
     [shortcut]: shortcut name
 
 Examples:
