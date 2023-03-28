@@ -41,6 +41,9 @@ fn main() {
                 configs.print_configs();
             },
             "--select" | "-s" => spawn_app(configs),
+            "--list" | "-l" => {
+                configs.print_shortcuts();
+            },
             _ => println!("Invalid argument. Try --help for more information."),
         },
         None => spawn_app(configs),

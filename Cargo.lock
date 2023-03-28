@@ -348,6 +348,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "rusty_robot"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "49dcfb5e716a3f2a2a5246f90298d90ffa9243677d00f2317822f94612cbba9b"
+
+[[package]]
 name = "serde"
 version = "1.0.158"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -382,6 +388,7 @@ dependencies = [
  "dirs",
  "fltk",
  "glcp",
+ "rusty_robot",
  "serde",
  "serde_derive",
  "toml",

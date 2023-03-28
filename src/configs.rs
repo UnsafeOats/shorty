@@ -20,6 +20,7 @@ pub struct Settings {
     pub width: i32,
     pub height: i32,
     pub default: Option<String>,
+    pub paste_on_select: Option<bool>,
 }
 
 impl Configs {
@@ -62,6 +63,9 @@ impl Configs {
             Some(s) => GlobalClip::set(s)?,
             None => bail!("[error] Could not copy to clipboard."),
         };
+        if self.settings.paste_on_select.unwrap_or(false) {
+            todo!();
+        }
         Ok(())
     }
 
@@ -79,6 +83,18 @@ impl Configs {
     pub fn print_configs(&self) {
         let config_path = Self::get_config_path();
         println!("{}", config_path.to_str().unwrap_or(""));
+    }
+
+    pub fn print_shortcuts(&self) {
+        let max_shortcut_length = self
+            .shortcuts
+            .keys()
+            .map(|s| s.len())
+            .max()
+            .unwrap_or(0);
+        for (key, value) in &self.shortcuts {
+            println!("{:0max_shortcut_length$} -> {}", key, value, max_shortcut_length = max_shortcut_length);
+        }
     }
 }
 
