@@ -3,6 +3,14 @@
 ### what even is this?
 a simple clipboard shortcut manager.  set shortcuts and pull them into your global clipboard.
 
+### how do i even get it?
+simple. use cargo.
+
+it goes without saying that you will need to have rust installed on your system to use cargo, but once you do simply run:
+```sh
+cargo install shrtcut
+```
+
 ### how to even use it?
 to set shortcuts, edit your `.shrtcut.toml` file and simply add them under the `[shortcuts]` section.  as an example, to create a shortcut to Google, you could update your `[shortcuts]` block to look like:
 ```console
