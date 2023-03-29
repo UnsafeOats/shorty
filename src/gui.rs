@@ -22,7 +22,7 @@ impl GuiApp {
         additional_choices.sort();
         choices.append(&mut additional_choices);
         Self {
-            configs,
+            configs: configs,
             choices,
         }
     }

@@ -5,7 +5,7 @@ use std::env;
 fn spawn_app(configs: configs::Configs) {
     match gui::GuiApp::new(configs).spawn() {
         Ok(_) => (),
-        Err(e) => println!("{:?}", e),
+        Err(e) => println!("[error] {:?}", e),
     };
 }
 
