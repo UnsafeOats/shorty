@@ -43,7 +43,7 @@ impl GuiApp {
         wind.show();
         while app::wait() {
             if menu.value() >= 0 {
-                self.configs.copy_to_clipboard(self.choices[menu.value() as usize].clone())?;
+                self.configs.use_shortcut(self.choices[menu.value() as usize].clone())?;
                 menu.hide();
                 wind.hide();
                 break;

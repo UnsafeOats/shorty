@@ -5,12 +5,19 @@ width=300
 
 # default allows you to specify the first shortcut in the dropdown menu
 # if you don't specify a default, the first shortcut alphabetically will be used
-default="google"
+default="oatbread"
+
+# add_to_clipboard allows you to specify whether or not the shortcut should be added to the clipboard after selection
+# if you don't specify a value, it will default to true
+add_to_clipboard=true
+
+# print_to_stdout allows you to specify whether or not the shortcut should be printed to stdout after selection
+# if you don't specify a value, it will default to true
+print_to_stdout=true
 
 # env_char allows you to specify how to annotate if a shortcut references an environment variable
 # if you don't specify an env_char, it will default to using '$'
-#
-# env_char="$"
+env_char="$"
 
 [shortcuts]
 # examples of creating shortcuts to google.com and oatbread.org

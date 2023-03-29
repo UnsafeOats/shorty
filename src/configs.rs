@@ -21,6 +21,8 @@ pub struct Settings {
     pub height: i32,
     pub default: Option<String>,
     pub env_annotation: Option<String>,
+    pub add_to_clipboard: Option<bool>,
+    pub print_to_stdout: Option<bool>,
 }
 
 impl Configs {
@@ -57,20 +59,27 @@ impl Configs {
         config_path
     }
 
-    pub fn copy_to_clipboard(&self, choice: String) -> Result<()> {
+    fn add_or_print_shortcut(&self, shortcut: String) -> Result<()> {
+        let env_annotation = self.settings.env_annotation.clone().unwrap_or("$".to_string());
+        let resolved_shortcut = if shortcut.starts_with(&env_annotation) {
+            var(&shortcut[env_annotation.len()..])?
+        } else {
+            shortcut.to_string()
+        };
+        if self.settings.add_to_clipboard.unwrap_or(true) {
+            GlobalClip::set(&resolved_shortcut)?;
+        }
+        if self.settings.print_to_stdout.unwrap_or(true) {
+            println!("{}", &resolved_shortcut);
+        }
+        Ok(())
+    }
+
+    pub fn use_shortcut(&self, choice: String) -> Result<()> {
         let shorty = self.shortcuts.get(&choice);
         match shorty {
-            Some(s) => {
-                let env_annotation = self.settings.env_annotation.clone().unwrap_or("$".to_string());
-                let annotation_len = env_annotation.len();
-                if s.starts_with(&env_annotation) {
-                    let env_var = var(&s[annotation_len..])?;
-                    GlobalClip::set(&env_var)?;
-                } else {
-                    GlobalClip::set(s)?;
-                }
-            },
-            None => bail!("[error] Could not copy to clipboard."),
+            Some(s) => self.add_or_print_shortcut(s.to_string())?,
+            None => bail!("[error] Could not read shortcut."),
         };
         Ok(())
     }

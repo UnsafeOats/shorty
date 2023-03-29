@@ -21,7 +21,7 @@ fn main() {
             },
             "--grab" | "-g" => match env::args().nth(2) {
                 Some(choice) => {
-                    match configs.copy_to_clipboard(choice) {
+                    match configs.use_shortcut(choice) {
                         Ok(_) => (),
                         Err(e) => println!("{:?}", e),
                     };
