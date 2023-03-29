@@ -1,8 +1,21 @@
 [settings]
+# height and width allow you to customize the dimensions of the GUI window
 height=40
 width=300
+
+# default allows you to specify the first shortcut in the dropdown menu
+# if you don't specify a default, the first shortcut alphabetically will be used
 default="google"
 
+# env_char allows you to specify how to annotate if a shortcut references an environment variable
+# if you don't specify an env_char, it will default to using '$'
+#
+# env_char="$"
+
 [shortcuts]
+# examples of creating shortcuts to google.com and oatbread.org
 google="google.com"
 oatbread="oatbread.org"
+
+# example of creating a shortcut to a local directory using env_char specified above
+home="$HOME"

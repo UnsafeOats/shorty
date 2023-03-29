@@ -5,7 +5,7 @@ use std::env;
 fn spawn_app(configs: configs::Configs) {
     match gui::GuiApp::new(configs).spawn() {
         Ok(_) => (),
-        Err(e) => println!("{:?}", e),
+        Err(e) => println!("[error] {:?}", e),
     };
 }
 
@@ -41,6 +41,9 @@ fn main() {
                 configs.print_configs();
             },
             "--select" | "-s" => spawn_app(configs),
+            "--list" | "-l" => {
+                configs.print_shortcuts();
+            },
             _ => println!("Invalid argument. Try --help for more information."),
         },
         None => spawn_app(configs),

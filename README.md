@@ -63,3 +63,5 @@ mit.
 - write more comprehensive unit tests.
 - create listener command that will listen for user-specified keypresses and open the shortcut ui when pressed so users don't need to manually map the commands in their operating system (see develop branch for this development).
 - considering switching from setting shortcuts in the `.shrtcut.toml` file to being stored in an embedded db, but this would make it harder to migrate my urls to be available in `shrtcut`.  possibly store shortcuts in an embedded db and create a command to load shortcuts in from a csv/toml file.
+- allow substitution from environment variables for values of shortcuts (ex, so tokens and api keys can be used)
+

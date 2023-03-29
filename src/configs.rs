@@ -9,17 +9,18 @@ use std::path::PathBuf;
 use toml::from_str;
 use glcp::GlobalClip;
 
-#[derive(Deserialize, PartialEq, Debug)]
+#[derive(Deserialize, PartialEq, Debug, Clone)]
 pub struct Configs {
     pub settings: Settings,
     pub shortcuts: HashMap<String, String>,
 }
 
-#[derive(Deserialize, PartialEq, Debug)]
+#[derive(Deserialize, PartialEq, Debug, Clone)]
 pub struct Settings {
     pub width: i32,
     pub height: i32,
     pub default: Option<String>,
+    pub env_annotation: Option<String>,
 }
 
 impl Configs {
@@ -59,7 +60,16 @@ impl Configs {
     pub fn copy_to_clipboard(&self, choice: String) -> Result<()> {
         let shorty = self.shortcuts.get(&choice);
         match shorty {
-            Some(s) => GlobalClip::set(s)?,
+            Some(s) => {
+                let env_annotation = self.settings.env_annotation.clone().unwrap_or("$".to_string());
+                let annotation_len = env_annotation.len();
+                if s.starts_with(&env_annotation) {
+                    let env_var = var(&s[annotation_len..])?;
+                    GlobalClip::set(&env_var)?;
+                } else {
+                    GlobalClip::set(s)?;
+                }
+            },
             None => bail!("[error] Could not copy to clipboard."),
         };
         Ok(())
@@ -80,6 +90,16 @@ impl Configs {
         let config_path = Self::get_config_path();
         println!("{}", config_path.to_str().unwrap_or(""));
     }
+
+    pub fn print_shortcuts(&self) {
+        let max_shortcut_length = self
+            .shortcuts
+            .keys()
+            .map(|s| s.len())
+            .max()
+            .unwrap_or(0);
+        for (key, value) in &self.shortcuts {
+            println!("{:0max_shortcut_length$} -> {}", key, value, max_shortcut_length = max_shortcut_length);
+        }
+    }
 }
-
-
