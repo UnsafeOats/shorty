@@ -1,6 +1,6 @@
 use crate::configs;
 use anyhow::Result;
-use fltk::{prelude::*, *};
+use fltk::{prelude::*, *, misc::InputChoice, enums::FrameType};
 
 pub struct GuiApp {
     configs: configs::Configs,
@@ -35,18 +35,21 @@ impl GuiApp {
         let menu_width = self.configs.settings.width - MENU_OFFSET;
         let menu_height = self.configs.settings.height - MENU_OFFSET;
         let mut wind = window::Window::new(x_offset, y_offset, self.configs.settings.width + MENU_OFFSET, self.configs.settings.height + MENU_OFFSET, "shrtcut");
-        let mut menu = menu::Choice::new(MENU_OFFSET, MENU_OFFSET, menu_width, menu_height, None);
+        let mut menu = InputChoice::new(MENU_OFFSET, MENU_OFFSET, menu_width, menu_height, None);
+        menu.set_down_frame(FrameType::ThinDownBox); // Optional: set a frame for the dropdown menu
         for choice in self.choices.clone().iter() {
-            menu.add_choice(choice);
+            menu.add(choice);
         }
         wind.end();
         wind.show();
         while app::wait() {
-            if menu.value() >= 0 {
-                self.configs.use_shortcut(self.choices[menu.value() as usize].clone())?;
-                menu.hide();
-                wind.hide();
-                break;
+            if let Some(value) = menu.value() {
+                if let Some(index) = self.choices.iter().position(|c| c == &value) {
+                    self.configs.use_shortcut(self.choices[index].clone())?;
+                    menu.hide();
+                    wind.hide();
+                    break;
+                }
             }
         }
         app::quit();
